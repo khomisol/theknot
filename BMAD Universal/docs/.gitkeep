@@ -1,0 +1,11 @@
+# Project Documentation Output Folder
+
+This folder is where your project documents will be created:
+
+- PRD.md - Product Requirements Document
+- architecture.md - System Architecture
+- ux-design.md - UX Specification
+- epics.md - Epics and Stories
+- sprint-artifacts/ - Sprint tracking and story files
+
+The BMAD agents will create and update files here as you work through the workflows.

@@ -1,0 +1,59 @@
+{
+  "name": "scraper-automation-tool",
+  "version": "0.1.0",
+  "description": "Zero-cost web scraping API for TheKnot.com and other sites",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:ui": "vitest --ui",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "docker:logs": "docker-compose logs -f postgres",
+    "docker:clean": "docker-compose down -v",
+    "test:db": "tsx src/database/test.ts",
+    "db:check": "tsx src/database/check-jobs.ts"
+  },
+  "keywords": [
+    "scraping",
+    "automation",
+    "theknot",
+    "playwright",
+    "api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/cors": "^11.2.0",
+    "@fastify/static": "^9.0.0",
+    "@google/generative-ai": "^0.24.1",
+    "@types/papaparse": "^5.5.2",
+    "dotenv": "^17.2.3",
+    "fastify": "^5.7.1",
+    "papaparse": "^5.5.3",
+    "pg": "^8.17.2",
+    "playwright": "^1.58.0",
+    "playwright-extra": "^4.3.6",
+    "puppeteer-extra-plugin-stealth": "^2.11.2",
+    "winston": "^3.19.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.0.10",
+    "@types/pg": "^8.16.0",
+    "@typescript-eslint/eslint-plugin": "^8.53.1",
+    "@typescript-eslint/parser": "^8.53.1",
+    "@vitest/ui": "^4.0.18",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

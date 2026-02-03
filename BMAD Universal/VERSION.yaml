@@ -1,0 +1,52 @@
+# BMAD Universal Version Information
+# This file tracks the version and enables update checking
+
+# Current version of this bmad-universal instance
+version: "1.0.0"
+
+# The upstream BMAD-METHOD version this is based on/compatible with
+# Note: v6.x are pre-releases (alpha), v4.44.1 is the latest stable
+based_on: "BMAD-METHOD v6.0.0-alpha.23"
+stable_upstream: "BMAD-METHOD v4.44.1"
+
+# Last update date
+last_updated: "2026-01-26"
+
+# Upstream repository information
+upstream:
+  repo: "bmad-code-org/BMAD-METHOD"
+  repo_url: "https://github.com/bmad-code-org/BMAD-METHOD"
+  releases_url: "https://github.com/bmad-code-org/BMAD-METHOD/releases"
+  api_releases: "https://api.github.com/repos/bmad-code-org/BMAD-METHOD/releases/latest"
+  
+# bmad-universal specific repository (if published)
+bmad_universal:
+  repo: ""
+  repo_url: ""
+  releases_url: ""
+  api_releases: ""
+
+# Files that should be preserved during updates (user customizations)
+preserve_on_update:
+  - "config.yaml"
+  - "docs/*"
+  - ".kiro/*"
+  - ".cursor/*"
+  - ".windsurf/*"
+  - ".claude/*"
+  - ".github/copilot-instructions.md"
+  - "WARP.md"
+
+# Files that will be replaced during updates
+update_targets:
+  - "agents/*.md"
+  - "workflows/**/*.md"
+  - "templates/*.md"
+  - "checklists/*.md"
+  - "ORCHESTRATOR.md"
+  - "AGENTS.md"
+  - "README.md"
+  - "USAGE-GUIDE.md"
+  - "UPDATE.md"
+  - "IDE-INTEGRATION.md"
+  - "scripts/*"

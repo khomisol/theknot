@@ -1,0 +1,107 @@
+# GitLab CI Template for Testing
+# Customize based on your project requirements
+
+stages:
+  - quality
+  - unit
+  - integration
+  - e2e
+
+variables:
+  NODE_VERSION: "20"
+  # Add variables as needed
+
+default:
+  image: node:${NODE_VERSION}
+  cache:
+    key: ${CI_COMMIT_REF_SLUG}
+    paths:
+      - node_modules/
+
+# Code Quality
+lint:
+  stage: quality
+  script:
+    - npm ci
+    - npm run lint
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+
+typecheck:
+  stage: quality
+  script:
+    - npm ci
+    - npm run typecheck
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+
+# Unit Tests
+unit-tests:
+  stage: unit
+  script:
+    - npm ci
+    - npm run test:unit -- --coverage
+  coverage: '/All files[^|]*\|[^|]*\s+([\d\.]+)/'
+  artifacts:
+    reports:
+      coverage_report:
+        coverage_format: cobertura
+        path: coverage/cobertura-coverage.xml
+    paths:
+      - coverage/
+    expire_in: 7 days
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+
+# Integration Tests
+integration-tests:
+  stage: integration
+  services:
+    - name: postgres:15
+      alias: db
+  variables:
+    POSTGRES_DB: test_db
+    POSTGRES_USER: postgres
+    POSTGRES_PASSWORD: test
+    DATABASE_URL: postgresql://postgres:test@db:5432/test_db
+  script:
+    - npm ci
+    - npm run test:integration
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+
+# E2E Tests
+e2e-tests:
+  stage: e2e
+  image: mcr.microsoft.com/playwright:v1.40.0-jammy
+  script:
+    - npm ci
+    - npx playwright install chromium
+    - npm run test:e2e
+  artifacts:
+    when: on_failure
+    paths:
+      - playwright-report/
+    expire_in: 7 days
+  rules:
+    - if: $CI_COMMIT_BRANCH == "main"
+    - if: $CI_COMMIT_BRANCH == "develop"
+
+# Scheduled regression tests
+nightly-regression:
+  stage: e2e
+  image: mcr.microsoft.com/playwright:v1.40.0-jammy
+  script:
+    - npm ci
+    - npx playwright install
+    - npm run test:e2e -- --grep @regression
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"

@@ -1,0 +1,65 @@
+# ═══════════════════════════════════════════════════════════════════════════════
+# BMAD Universal Configuration
+# ═══════════════════════════════════════════════════════════════════════════════
+# This file is PRESERVED during updates. Your customizations are safe here.
+# Edit these values for your project.
+# ═══════════════════════════════════════════════════════════════════════════════
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# Project Information
+# ─────────────────────────────────────────────────────────────────────────────────
+project_name: "My Project"
+user_name: "Developer"
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# Output Settings
+# ─────────────────────────────────────────────────────────────────────────────────
+output_folder: "docs"
+sprint_artifacts: "docs/sprint-artifacts"
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# Language Settings
+# ─────────────────────────────────────────────────────────────────────────────────
+language: "English"
+document_language: "English"
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# User Experience Level
+# ─────────────────────────────────────────────────────────────────────────────────
+# Options: beginner, intermediate, advanced
+# Affects how agents explain concepts and provide guidance
+skill_level: "intermediate"
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# Default Planning Track
+# ─────────────────────────────────────────────────────────────────────────────────
+# Options:
+#   - quick-flow:   Bug fixes, small features (1-15 stories)
+#   - bmad-method:  Products, platforms (10-50+ stories)  
+#   - enterprise:   Enterprise systems (30+ stories)
+default_track: "bmad-method"
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# IDE Integration
+# ─────────────────────────────────────────────────────────────────────────────────
+# Specify your primary AI IDE (helps with context-aware suggestions)
+# Options: cursor, windsurf, claude-code, kiro, warp, copilot, other
+primary_ide: "other"
+
+# ─────────────────────────────────────────────────────────────────────────────────
+# Update Settings
+# ─────────────────────────────────────────────────────────────────────────────────
+# Auto-check for updates (checked by AI when ORCHESTRATOR loaded)
+# Set to false to disable update notifications
+auto_check_updates: true
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Custom Settings (Add your own below)
+# ═══════════════════════════════════════════════════════════════════════════════
+# Add any project-specific configuration here.
+# This entire file is preserved during updates.
+
+# Example custom settings:
+# tech_stack: "React, Node.js, PostgreSQL"
+# team_size: 3
+# deployment_target: "AWS"
