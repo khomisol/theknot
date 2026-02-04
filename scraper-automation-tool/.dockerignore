@@ -1,0 +1,13 @@
+node_modules
+npm-debug.log
+.env
+.env.local
+dist
+data
+*.md
+.git
+.gitignore
+.vscode
+.kiro
+docs
+BMAD Universal
