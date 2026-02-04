@@ -303,10 +303,13 @@
                             </select>
                         </div>
                         <div class="flex items-end">
-                            <label class="flex items-center gap-3 cursor-pointer">
-                                <input type="checkbox" id="showBrowser" class="w-5 h-5 text-primary-600 bg-white border-gray-300 rounded focus:ring-primary-500">
-                                <span class="text-sm font-medium text-gray-700">Show Browser Window (Debug Mode)</span>
-                            </label>
+                            <div>
+                                <label class="flex items-center gap-3 cursor-pointer">
+                                    <input type="checkbox" id="showBrowser" class="w-5 h-5 text-primary-600 bg-white border-gray-300 rounded focus:ring-primary-500">
+                                    <span class="text-sm font-medium text-gray-700">Show Browser Window (Debug Mode)</span>
+                                </label>
+                                <p class="mt-1 text-xs text-red-600">⚠️ Only works on local machine. Keep unchecked for Railway deployment.</p>
+                            </div>
                         </div>
                     </div>
 
