@@ -1,6 +1,7 @@
 import { EventEmitter } from 'events';
 import { listJobs, updateJobStatus } from '../database/jobs';
 import { JobWorker } from '../workers/job-worker';
+import { sendWebhookNotification, createCompletedPayload, createFailedPayload } from '../utils/webhook';
 import type { QueueConfig, QueueJob, QueueStats } from '../types/queue';
 
 export class JobQueue extends EventEmitter {
@@ -156,6 +157,23 @@ export class JobQueue extends EventEmitter {
       console.log(
         `✅ Job ${job.id} completed (${result.itemsExtracted} items, ${duration}ms)`
       );
+
+      // Send webhook notification if webhook_url is provided
+      if (job.webhook_url) {
+        console.log(`[WEBHOOK] Sending completion notification for job ${job.id}`);
+        const payload = createCompletedPayload(job.id, job.site, {
+          itemsExtracted: result.itemsExtracted,
+          pagesScraped: result.pagesScraped,
+          durationMs: duration,
+          resultFilePath: `data/${job.id}.${job.format}`,
+          items: result.items, // Include scraped data
+        });
+        
+        // Send webhook notification (don't await - fire and forget)
+        sendWebhookNotification(job.webhook_url, payload).catch((error) => {
+          console.error(`[WEBHOOK] Failed to send notification:`, error);
+        });
+      }
     } catch (error) {
       // Update status to failed
       await updateJobStatus(job.id, 'failed', {
@@ -165,6 +183,21 @@ export class JobQueue extends EventEmitter {
 
       this.emit('job-failed', { job, error });
       console.error(`❌ Job ${job.id} failed:`, error);
+
+      // Send webhook notification if webhook_url is provided
+      if (job.webhook_url) {
+        console.log(`[WEBHOOK] Sending failure notification for job ${job.id}`);
+        const payload = createFailedPayload(
+          job.id,
+          job.site,
+          error instanceof Error ? error.message : 'Unknown error'
+        );
+        
+        // Send webhook notification (don't await - fire and forget)
+        sendWebhookNotification(job.webhook_url, payload).catch((webhookError) => {
+          console.error(`[WEBHOOK] Failed to send notification:`, webhookError);
+        });
+      }
     } finally {
       // Remove from active jobs
       this.activeJobs.delete(job.id);
