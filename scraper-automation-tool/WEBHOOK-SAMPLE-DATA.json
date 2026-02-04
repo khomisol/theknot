@@ -1,0 +1,54 @@
+{
+  "jobId": "d1759a6e-4ef9-4533-865f-855d6058cae6",
+  "status": "completed",
+  "site": "theknot",
+  "timestamp": "2026-02-04T14:30:00.000Z",
+  "data": {
+    "itemsExtracted": 60,
+    "pagesScraped": 2,
+    "durationMs": 45000,
+    "resultFilePath": "data/d1759a6e-4ef9-4533-865f-855d6058cae6.json",
+    "items": [
+      {
+        "name": "The Glasshouse",
+        "location": "Charlotte, NC",
+        "rating": 4.8,
+        "reviews": 125,
+        "price": "Starting at $5,000",
+        "url": "https://www.theknot.com/marketplace/the-glasshouse-charlotte-nc-123456"
+      },
+      {
+        "name": "The Ballantyne Hotel",
+        "location": "Charlotte, NC",
+        "rating": 4.9,
+        "reviews": 234,
+        "price": "Starting at $8,000",
+        "url": "https://www.theknot.com/marketplace/the-ballantyne-hotel-charlotte-nc-789012"
+      },
+      {
+        "name": "Mint Museum Uptown",
+        "location": "Charlotte, NC",
+        "rating": "New",
+        "reviews": 0,
+        "price": "Contact for pricing",
+        "url": "https://www.theknot.com/marketplace/mint-museum-uptown-charlotte-nc-345678"
+      },
+      {
+        "name": "The Duke Mansion",
+        "location": "Charlotte, NC",
+        "rating": 4.7,
+        "reviews": 89,
+        "price": "Starting at $6,500",
+        "url": "https://www.theknot.com/marketplace/the-duke-mansion-charlotte-nc-456789"
+      },
+      {
+        "name": "Foundation for the Carolinas",
+        "location": "Charlotte, NC",
+        "rating": 4.6,
+        "reviews": 67,
+        "price": "Starting at $4,500",
+        "url": "https://www.theknot.com/marketplace/foundation-for-the-carolinas-charlotte-nc-567890"
+      }
+    ]
+  }
+}
