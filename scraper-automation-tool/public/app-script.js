@@ -1,5 +1,6 @@
 // Configuration
-const API_BASE = 'http://localhost:3000/api';
+// Use current origin for API calls (works on localhost and Railway)
+const API_BASE = `${window.location.origin}/api`;
 const API_KEY = 'test-api-key-12345';
 
 // State
