@@ -15,12 +15,14 @@ interface WebhookPayload {
     pagesScraped?: number;
     durationMs?: number;
     resultFilePath?: string;
-    name?: string[];
-    location?: string[];
-    rating?: (number | string)[];
-    reviews?: number[];
-    price?: string[];
-    url?: string[];
+    venues?: Array<{
+      name: string;
+      location: string;
+      rating: number | string;
+      reviews: number;
+      price: string;
+      url: string;
+    }>;
   };
   error?: {
     message: string;
@@ -84,22 +86,15 @@ export function createCompletedPayload(
     items: any[];
   }
 ): WebhookPayload {
-  // Transform items array into column arrays
-  const name: string[] = [];
-  const location: string[] = [];
-  const rating: (number | string)[] = [];
-  const reviews: number[] = [];
-  const price: string[] = [];
-  const url: string[] = [];
-
-  result.items.forEach((item) => {
-    name.push(item.name || '');
-    location.push(item.location || '');
-    rating.push(item.rating || 'New');
-    reviews.push(item.reviews || 0);
-    price.push(item.price || '');
-    url.push(item.url || '');
-  });
+  // Transform items into venue objects (easier for automation tools)
+  const venues = result.items.map((item) => ({
+    name: item.name || '',
+    location: item.location || '',
+    rating: item.rating || 'New',
+    reviews: item.reviews || 0,
+    price: item.price || '',
+    url: item.url || '',
+  }));
 
   return {
     jobId,
@@ -107,17 +102,12 @@ export function createCompletedPayload(
     site,
     timestamp: new Date().toISOString(),
     data: {
-      count: result.items.length, // Add count for easy looping
+      count: result.items.length,
       itemsExtracted: result.itemsExtracted,
       pagesScraped: result.pagesScraped,
       durationMs: result.durationMs,
       resultFilePath: result.resultFilePath,
-      name,
-      location,
-      rating,
-      reviews,
-      price,
-      url,
+      venues,
     },
   };
 }
