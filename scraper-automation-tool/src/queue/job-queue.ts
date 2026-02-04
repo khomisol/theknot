@@ -73,7 +73,7 @@ export class JobQueue extends EventEmitter {
     if (!this.queue.find((q) => q.id === job.id) && !this.activeJobs.has(job.id)) {
       this.queue.push(job);
       this.emit('job-queued', job);
-      console.log(`📥 Job ${job.id} enqueued (type: ${job.job_type || 'scrape'})`);
+      console.log(`📥 Job ${job.id} enqueued (type: ${job.job_type || 'scrape'}, webhook: ${job.webhook_url ? 'YES' : 'NO'})`);
       
       // Process immediately if workers available
       this.processQueue();
@@ -160,6 +160,7 @@ export class JobQueue extends EventEmitter {
 
       // Send webhook notification if webhook_url is provided
       if (job.webhook_url) {
+        console.log(`[WEBHOOK] Job ${job.id} has webhook_url: ${job.webhook_url}`);
         console.log(`[WEBHOOK] Sending completion notification for job ${job.id}`);
         const payload = createCompletedPayload(job.id, job.site, {
           itemsExtracted: result.itemsExtracted,
@@ -169,10 +170,14 @@ export class JobQueue extends EventEmitter {
           items: result.items, // Include scraped data
         });
         
+        console.log(`[WEBHOOK] Payload preview: ${JSON.stringify(payload).substring(0, 200)}...`);
+        
         // Send webhook notification (don't await - fire and forget)
         sendWebhookNotification(job.webhook_url, payload).catch((error) => {
           console.error(`[WEBHOOK] Failed to send notification:`, error);
         });
+      } else {
+        console.log(`[WEBHOOK] Job ${job.id} has NO webhook_url configured`);
       }
     } catch (error) {
       // Update status to failed
@@ -186,6 +191,7 @@ export class JobQueue extends EventEmitter {
 
       // Send webhook notification if webhook_url is provided
       if (job.webhook_url) {
+        console.log(`[WEBHOOK] Job ${job.id} has webhook_url: ${job.webhook_url}`);
         console.log(`[WEBHOOK] Sending failure notification for job ${job.id}`);
         const payload = createFailedPayload(
           job.id,
@@ -193,10 +199,14 @@ export class JobQueue extends EventEmitter {
           error instanceof Error ? error.message : 'Unknown error'
         );
         
+        console.log(`[WEBHOOK] Payload: ${JSON.stringify(payload)}`);
+        
         // Send webhook notification (don't await - fire and forget)
         sendWebhookNotification(job.webhook_url, payload).catch((webhookError) => {
           console.error(`[WEBHOOK] Failed to send notification:`, webhookError);
         });
+      } else {
+        console.log(`[WEBHOOK] Job ${job.id} has NO webhook_url configured`);
       }
     } finally {
       // Remove from active jobs

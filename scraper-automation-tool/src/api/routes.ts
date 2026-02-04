@@ -74,6 +74,17 @@ export async function registerRoutes(app: FastifyInstance, jobQueue: JobQueue) {
         error_message: null,
       });
 
+      // Add to queue immediately (don't wait for poll)
+      await jobQueue.enqueue({
+        id: jobId,
+        site,
+        parameters,
+        format,
+        headless: headless ?? true,
+        job_type: job_type || 'scrape',
+        webhook_url: webhook_url || null,
+      });
+
       return reply.status(201).send({
         jobId: jobId, // Support both formats
         job_id: jobId,
